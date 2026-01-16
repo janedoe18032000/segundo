@@ -118,16 +118,17 @@
             <input type="text" id="textInput" placeholder="T.ex. Hej på dig!">
         </div>
         
-        <button onclick="reverseText()">Vänd baklänges</button>
+        <button type="button" onclick="reverseText()">Vänd baklänges</button>
         
         <div class="result">
-            <p class="result-text placeholder" id="result">Din text baklänges visas här...</p>
+            <p class="result-text placeholder" id="result" aria-live="polite">Din text baklänges visas här...</p>
         </div>
     </div>
 
     <script>
         function reverseText() {
-            const input = document.getElementById('textInput').value;
+            const inputElem = document.getElementById('textInput');
+            const input = inputElem.value;
             const resultElement = document.getElementById('result');
             
             if (input.trim() === '') {
@@ -136,14 +137,16 @@
                 return;
             }
             
-            const reversed = input.split('').reverse().join('');
+            // Use Array.from or spread to avoid splitting surrogate pairs (emoji, etc.)
+            const reversed = Array.from(input).reverse().join('');
             resultElement.textContent = reversed;
             resultElement.classList.remove('placeholder');
         }
 
-        // Lägg till möjlighet att trycka Enter
-        document.getElementById('textInput').addEventListener('keypress', function(e) {
+        // Use keydown (more reliable) and allow Enter to trigger the function
+        document.getElementById('textInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
+                e.preventDefault();
                 reverseText();
             }
         });
