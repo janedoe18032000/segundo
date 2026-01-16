@@ -5,151 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Baklänges</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            max-width: 600px;
+            margin: 0 auto;
         }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
+        
+        input {
             width: 100%;
-        }
-
-        h1 {
-            color: #667eea;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2em;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            padding: 10px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            margin-bottom: 10px;
         }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
+        
         button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
+            padding: 10px 20px;
             font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .result {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .result-text {
-            color: #333;
+        
+        #result {
+            margin-top: 20px;
             font-size: 18px;
-            font-weight: 500;
-            text-align: center;
-            word-break: break-word;
-        }
-
-        .placeholder {
-            color: #999;
-            font-style: italic;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔄 Text Baklänges</h1>
-        
-        <div class="input-group">
-            <label for="textInput">Skriv in din text:</label>
-            <input type="text" id="textInput" placeholder="T.ex. Hej på dig!">
-        </div>
-        
-        <button type="button" onclick="reverseText()">Vänd baklänges</button>
-        
-        <div class="result">
-            <p class="result-text placeholder" id="result" aria-live="polite">Din text baklänges visas här...</p>
-        </div>
-    </div>
+    <h1>Text Baklänges</h1>
+    
+    <input type="text" id="textInput" placeholder="Skriv något här...">
+    <button onclick="reverseText()">Vänd baklänges</button>
+    
+    <div id="result"></div>
 
     <script>
         function reverseText() {
-            const inputElem = document.getElementById('textInput');
-            const input = inputElem.value;
-            const resultElement = document.getElementById('result');
-            
-            if (input.trim() === '') {
-                resultElement.textContent = 'Skriv in något först!';
-                resultElement.classList.add('placeholder');
-                return;
-            }
-            
-            // Use Array.from or spread to avoid splitting surrogate pairs (emoji, etc.)
-            const reversed = Array.from(input).reverse().join('');
-            resultElement.textContent = reversed;
-            resultElement.classList.remove('placeholder');
+            const text = document.getElementById('textInput').value;
+            const reversed = text.split('').reverse().join('');
+            document.getElementById('result').textContent = reversed;
         }
-
-        // Use keydown (more reliable) and allow Enter to trigger the function
-        document.getElementById('textInput').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                reverseText();
-            }
-        });
     </script>
 </body>
 </html>
